@@ -1,0 +1,13 @@
+{
+  "name": "SMS Conversations",
+  "author": "James P. Walters",
+  "description": "Shows the last 50 SMS conversations",
+  "version": "1.0",
+  "url": "https://github.com/jpwalters",
+	"links" : [{
+		"menu" : "SMS",
+		"url" : "sms-conversation",
+		"script" : "sms-conversation.php",
+		"label" : "SMS Conversations"
+	}]
+}

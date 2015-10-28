@@ -77,7 +77,7 @@ $(document).ready(function(){
 							row += '<td class="recording-date">' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</td>';
 							row += '<td class="from">' + formatePhoneNumber(details.from) + '</td>';
 							row += '<td class="to">' + formatePhoneNumber(details.to) + '</td>';
-							row += '<td>' + details.message_count + '</td></tr>';
+							row += '<td class="message-count">' + details.message_count + '</td></tr>';
 								
 							if(firstRun)								
 								select.append(row);
@@ -93,7 +93,8 @@ $(document).ready(function(){
 								var row = '#' + details.from.substring(1);
 								$(row).addClass("unread");
 								$(row + " td.recording-date").html(date.toLocaleDateString() + ' ' + date.toLocaleTimeString());
-															
+								$(row + " td.message-count").html(details.message_count);						
+								
 								$("#smss tr:first").before($(row));
 
 								$('#notify')[0].play();

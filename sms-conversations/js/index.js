@@ -68,9 +68,10 @@ $(document).ready(function(){
 			updateSmsList = function() {
 				$.post( "sms-conversation",{action:'sms-list'}, function( data ) {
 					$.each(data, function(sms, details) {
+						
+						var date = new Date(details.created + ' GMT');
+						
 						if($('#' + details.from.substring(1)).length == 0) {
-							
-							var date = new Date(details.created + ' GMT');
 							
 							row = '<tr class="message-row recording-type ' + (details.status=='new'?'unread':'') + '" id="' + details.from.substring(1) + '">';
 							row += '<td class="recording-date">' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</td>';
@@ -88,7 +89,13 @@ $(document).ready(function(){
 						else {
 							
 							if(details.status=='new' && !$('#' + details.from.substring(1)).hasClass("unread")) {
-								$('#' + details.from.substring(1)).addClass("unread");
+								
+								var row = '#' + details.from.substring(1);
+								$(row).addClass("unread");
+								$(row + " td.recording-date").html(date.toLocaleDateString() + ' ' + date.toLocaleTimeString());
+															
+								$("#smss tr:first").before($(row));
+
 								$('#notify')[0].play();
 							}
 							else if(details.status=='read') {

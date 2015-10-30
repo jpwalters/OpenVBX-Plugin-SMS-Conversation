@@ -14,7 +14,16 @@ function getSmsHistory(smsId) {
 		
 		$.each(data, function(k, v) {
 			
-			var date = new Date(v.created + ' GMT');
+			var smsTimeStamp = v.created;
+			var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+			if(is_chrome)
+			{
+				var date = new Date(v.created + ' GMT');
+				smsTimeStamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+			}
+			
+			
 			
 			if(firstTo == '' || firstTo == v.to) {
 				firstTo = v.to;
@@ -25,7 +34,7 @@ function getSmsHistory(smsId) {
 					message += '<a href="#" class="mms-image" id="' + v.call_sid + '"><i class="message-data-name fa fa-picture-o" style="padding-right:50%;"> View Image</i></a>';
 				}
 				
-				message += '<span class="message-data-time" >' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</span> &nbsp; &nbsp;';
+				message += '<span class="message-data-time" >' + smsTimeStamp + '</span> &nbsp; &nbsp;';
 				message += '<span class="message-data-name" >' + v.to + '</span></div>';				
 				message += '<div class="message other-message float-right">';
 				message += v.message;				
@@ -36,7 +45,7 @@ function getSmsHistory(smsId) {
 				message = '<li>';
 				message += '<div class="message-data">';
 				message += '<span class="message-data-name">' + v.to + '</span>';
-				message += '<span class="message-data-time">' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</span>';
+				message += '<span class="message-data-time">' + smsTimeStamp + '</span>';
 				
 				if(v.call_sid.substr(0,2)==='MM') {
 					message += '<a href="#" class="mms-image" id="' + v.call_sid + '"><i class="message-data-name fa fa-picture-o" style="padding-left:50%;"> View Image</i></a>';
@@ -69,12 +78,21 @@ $(document).ready(function(){
 				$.post( "sms-conversation",{action:'sms-list'}, function( data ) {
 					$.each(data, function(sms, details) {
 						
-						var date = new Date(details.created + ' GMT');
+						var smsTimeStamp = details.created;
+						
+						var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+						if(is_chrome)
+						{
+							var date = new Date(details.created + ' GMT');
+							smsTimeStamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+						}
+						
 						
 						if($('#' + details.from.substring(1)).length == 0) {
 							
 							row = '<tr class="message-row recording-type ' + (details.status=='new'?'unread':'') + '" id="' + details.from.substring(1) + '">';
-							row += '<td class="recording-date">' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString() + '</td>';
+							row += '<td class="recording-date">' + smsTimeStamp + '</td>';
 							row += '<td class="from">' + formatePhoneNumber(details.from) + '</td>';
 							row += '<td class="to">' + formatePhoneNumber(details.to) + '</td>';
 							row += '<td class="message-count">' + details.message_count + '</td></tr>';
@@ -92,7 +110,7 @@ $(document).ready(function(){
 								
 								var row = '#' + details.from.substring(1);
 								$(row).addClass("unread");
-								$(row + " td.recording-date").html(date.toLocaleDateString() + ' ' + date.toLocaleTimeString());
+								$(row + " td.recording-date").html(smsTimeStamp);
 								$(row + " td.message-count").html(details.message_count);						
 								
 								$("#smss tr:first").before($(row));

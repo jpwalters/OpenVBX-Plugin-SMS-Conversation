@@ -101,11 +101,12 @@ $(document).ready(function(){
 								select.append(row);
 							else {
 								
-								if($('#smss tr').length == 0)
+								if($('#smss tr').length == 0) {
 									$('#smss').append(row);
-								else
+								}
+								else {
 									$("#smss tr:first").before(row);
-								
+								}								
 								
 								$('#notify')[0].play();
 							}
@@ -119,8 +120,10 @@ $(document).ready(function(){
 								$(row + " td.recording-date").html(smsTimeStamp);
 								$(row + " td.message-count").html(details.message_count);						
 								
-								$("#smss tr:first").before($(row));
-
+								if($('#smss tr').length > 1) {
+									$("#smss tr:first").before($(row));
+								}
+								
 								$('#notify')[0].play();
 							}
 							else if(details.status=='read') {

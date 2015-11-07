@@ -100,7 +100,13 @@ $(document).ready(function(){
 							if(firstRun)								
 								select.append(row);
 							else {
-								$("#smss tr:first").before(row);
+								
+								if($('#smss tr').length == 0)
+									$('#smss').append(row);
+								else
+									$("#smss tr:first").before(row);
+								
+								
 								$('#notify')[0].play();
 							}
 						}

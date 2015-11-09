@@ -29,14 +29,27 @@ function getSmsHistory(smsId) {
 				firstTo = v.to;
 				message = '<li class="clearfix">';
 				message += '<div class="message-data align-right">';
-				
+						
 				if(v.call_sid.substr(0,2)==='MM') {
-					message += '<a href="#" class="mms-image" id="' + v.call_sid + '"><i class="message-data-name fa fa-picture-o" style="padding-right:50%;"> View Image</i></a>';
+					message += '<i class="message-data-name fa fa-picture-o" style="padding-right:50%;"> MMS</i>';
 				}
 				
 				message += '<span class="message-data-time" >' + smsTimeStamp + '</span> &nbsp; &nbsp;';
 				message += '<span class="message-data-name" >' + v.to + '</span></div>';				
 				message += '<div class="message other-message float-right">';
+				
+				if(v.call_sid.substr(0,2)==='MM') {
+					var media = getMmsMedia(v.call_sid);
+					
+					$.each(media, function(k2, v2) {
+						var url = '"https://api.twilio.com/2010-04-01/Accounts/' + v2.account_sid + '/Messages/' + v2.parent_sid + '/Media/' + v2.sid + '"';
+						
+						message += '<img data-gallery="' + v2.parent_sid + '" rel="' + v2.parent_sid + '" class="mms-media ' + v2.parent_sid + '" width="100px" height="100px" src=' + url + ' type="' + v2.content_type + '">&nbsp;';
+					});
+					
+					message += '<br>';
+				}
+				
 				message += v.message;				
 				message += '</div></li>';
 			}
@@ -48,13 +61,26 @@ function getSmsHistory(smsId) {
 				message += '<span class="message-data-time">' + smsTimeStamp + '</span>';
 				
 				if(v.call_sid.substr(0,2)==='MM') {
-					message += '<a href="#" class="mms-image" id="' + v.call_sid + '"><i class="message-data-name fa fa-picture-o" style="padding-left:50%;"> View Image</i></a>';
+					message += '<i class="message-data-name fa fa-picture-o" style="padding-right:50%;"> MMS</i>';
 				}
 				
 				message += '</div>';
 				
 				
 				message += '<div class="message my-message">';
+				
+				if(v.call_sid.substr(0,2)==='MM') {
+					var media = getMmsMedia(v.call_sid);
+					
+					$.each(media, function(k2, v2) {
+						var url = '"https://api.twilio.com/2010-04-01/Accounts/' + v2.account_sid + '/Messages/' + v2.parent_sid + '/Media/' + v2.sid + '"';
+						
+						message += '<img data-gallery="' + v2.parent_sid + '" rel="' + v2.parent_sid + '" class="mms-media ' + v2.parent_sid + '" width="100px" height="100px" src=' + url + ' type="' + v2.content_type + '">&nbsp;';
+					});
+					
+					message += '<br>';
+				}
+				
 				message += v.message;			
 				message += '</div></li>';
 			}
@@ -65,6 +91,26 @@ function getSmsHistory(smsId) {
 		
 		$('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
 	});
+}
+
+function getMmsMedia(mmsId) {
+	
+	var media;
+	
+	$.ajax({
+        url: 'sms-conversation',
+        type: 'POST',
+        async: false,
+		data: {id:mmsId,action:'mms-media'},
+		error: function(){
+            media = null;
+        },
+        success: function(data){ 
+			media = data.media_list;
+        }
+    });
+	
+	return media;
 }
 
 $(document).ready(function(){
@@ -155,7 +201,7 @@ $(document).ready(function(){
 			
 			getSmsHistory('+' + smsId);
 		});
-			
+
 		$('#sendSMS').click(function(e) {
 			e.preventDefault();
 			
@@ -177,8 +223,17 @@ $(document).ready(function(){
 			
 			window.parent.Client.call({'Digits': 1,'record':'true','to': $('#sms-to-phone').val(),'from': $('#sms-from-phone').val(),'callerid':$('#sms-from-phone').val()});
 		});
-		
-		$('.mms-image').click(function(e) {
-			e.preventDefault();
+				
+		//mms image popup
+		$(".mms-media").live('click',function(e){
+
+			$('img[rel=' + $(this).attr('rel') + ']').light({
+				unbind:true, //whether to unbind other click events from elements
+				prevText:'Previous', //the text on the "Previous" button
+				nextText:'Next', //the text on the "Next" button
+				loadText:'Loading...', //the text to display when loading
+				keyboard:true //whether to use the keyboard inputs for next, previous and close
+			});
+			
 		});
 });

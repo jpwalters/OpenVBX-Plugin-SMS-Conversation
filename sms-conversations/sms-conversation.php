@@ -16,6 +16,23 @@
 		echo json_encode($query->result());
 		exit;
 	}
+	else if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'mms-media') {
+		//$account = OpenVBX::getAccount();
+		//$media_url = "Accounts/{$this->twilio_sid}/Messages/{$_POST['id']}/Media.json";
+		//$mediaObj = $account->request($media_url, "GET");
+		//echo $mediaObj;
+		//echo json_encode($account->messages->get($_POST['id'])->media);
+		$ci = & get_instance();
+				
+		require_once(APPPATH . 'libraries/twilio.php');
+				
+		$ci->twilio = new TwilioRestClient($ci->twilio_sid,$ci->twilio_token,$ci->twilio_endpoint);
+		$media_url = "Accounts/{$this->twilio_sid}/Messages/{$_POST['id']}/Media.json";
+		$mediaObj = $ci->twilio->request($media_url, "GET");
+		echo $mediaObj->ResponseText;
+		
+		exit;		
+	}
 ?>
 
 <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
@@ -27,7 +44,8 @@
 // http://codepen.io/drehimself/pen/KdXwxR?utm_source=bypeople
 
 
-OpenVBX::addCSS('css/style.css'); 
+OpenVBX::addCSS('css/style.css');
+OpenVBX::addCSS('css/jquery.light.css'); 
 
 ?>
 
@@ -82,4 +100,8 @@ OpenVBX::addCSS('css/style.css');
 <source src="/assets/i/notify.mp3"></source>
 </audio>
 
-<?php OpenVBX::addJS('js/index.js'); ?>
+<?php 
+
+OpenVBX::addJS('js/index.js'); 
+OpenVBX::addJS('js/jquery.light.js');
+?>

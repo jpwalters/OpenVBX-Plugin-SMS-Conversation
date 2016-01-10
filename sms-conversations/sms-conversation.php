@@ -97,7 +97,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 </div><!-- .vbx-content-main -->
 
 <audio id="notify">
-<source src="/assets/i/notify.mp3"></source>
+<source src="/plugins/sms-conversation/assets/notify.mp3"></source>
 </audio>
 
 <?php 

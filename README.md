@@ -6,7 +6,9 @@ This plugin will group sms conversations into a single list and when selected it
 
 ## Installation
 
-[Download][1] the plugin and extract to /plugins
+[Download][1] the plugin and extract to /**plugins** directory.
+
+![screenshot](https://cloud.githubusercontent.com/assets/4819310/12224268/5b4757d4-b7ba-11e5-81c0-5d72495cd5c0.PNG)
 
 [1]: https://github.com/jpwalters/OpenVBX-Plugin-SMS-Conversation/archive/master.zip
 

@@ -34,9 +34,6 @@
 		exit;
 	}
 
-// Find plugin location to correctly link sound file
-$plugin_dir = str_replace( $_SERVER['DOCUMENT_ROOT'], '', dirname ( __FILE__ ) );
-
 ?>
 
 <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
@@ -101,7 +98,30 @@ OpenVBX::addCSS('css/jquery.light.css');
 </div><!-- .vbx-content-main -->
 
 <audio id="notify">
-<source src="<?= $plugin_dir ?>/assets/notify.mp3"></source>
+<?php 
+	// Find plugin location to correctly link sound file
+	$file = "assets/notify.mp3";
+	$found_plugin_dir = false;
+	$plugin_dir = "plugins";
+	
+	$plugin = OpenVBX::$currentPlugin;
+	$info = $plugin->getInfo();
+	$path = $info['plugin_path'] .'/'. $file;
+	$plugin_dir = implode('/', array('plugins', $info['dir_name'], $file));
+	
+	$is_ssl_proto = false;
+	switch(true) {
+		case !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off':
+			$is_ssl_proto = true;
+			break;
+		case !empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https':
+			$is_ssl_proto = true;
+			break;
+	}
+
+	$base_url = "http".($is_ssl_proto ? 's' : '') . "://".$_SERVER['HTTP_HOST']. rtrim(WEB_ROOT, '/') . '/';
+?>
+<source src="<?= $base_url.$plugin_dir ?>"></source>
 </audio>
 
 <?php

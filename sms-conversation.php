@@ -79,20 +79,20 @@ OpenVBX::addCSS('css/jquery.light.css');
 						</div>
 					</div> <!-- end chat-header -->
 
-				  <div class="chat-history">
+					<div class="chat-history">
 					<ul class="chat-history-messages">
 
 					</ul>
 
-				  </div> <!-- end chat-history -->
+					</div> <!-- end chat-history -->
 
-				  <div class="chat-message clearfix">
+					<div class="chat-message clearfix">
 					<textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
 					<button id="sendSMS">Send</button>
 					<input type="hidden" id="sms-messageid" value="">
 					<input type="hidden" id="sms-to-phone" value="">
 					<input type="hidden" id="sms-from-phone" value="">
-				  </div> <!-- end chat-message -->
+					</div> <!-- end chat-message -->
 
 				</div> <!-- end chat -->
 			</div>

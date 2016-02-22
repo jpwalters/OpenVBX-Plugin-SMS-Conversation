@@ -26,7 +26,7 @@
 
 		require_once(APPPATH . 'libraries/twilio.php');
 
-		$ci->twilio = new TwilioRestClient($ci->twilio_sid,$ci->twilio_token,$ci->twilio_endpoint);
+		$ci->twilio = new TwilioRestClient($ciConersation->twilio_sid,$ci->twilio_token,$ci->twilio_endpoint);
 		$media_url = "Accounts/{$this->twilio_sid}/Messages/{$_POST['id']}/Media.json";
 		$mediaObj = $ci->twilio->request($media_url, "GET");
 		echo $mediaObj->ResponseText;
@@ -53,7 +53,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 
 <div class="vbx-content-main">
 	<div class="vbx-content-menu vbx-content-menu-top">
-		<h2 class="vbx-content-heading">SMS Conersation List</h2>
+		<h2 class="vbx-content-heading">SMS Conversation List</h2>
 	</div><!-- .vbx-content-menu -->
 	<div class="vbx-content-container">
 		<div class="vbx-content-section">

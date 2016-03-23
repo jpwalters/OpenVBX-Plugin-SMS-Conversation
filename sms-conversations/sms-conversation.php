@@ -53,7 +53,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 
 <div class="vbx-content-main">
 	<div class="vbx-content-menu vbx-content-menu-top">
-		<h2 class="vbx-content-heading">SMS Conersation List</h2>
+		<h2 class="vbx-content-heading">SMS Conversation List</h2>
 	</div><!-- .vbx-content-menu -->
 	<div class="vbx-content-container">
 		<div class="vbx-content-section">

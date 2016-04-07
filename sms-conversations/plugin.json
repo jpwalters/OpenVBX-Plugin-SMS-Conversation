@@ -3,7 +3,7 @@
   "author": "James P. Walters",
   "description": "Shows the last 50 SMS conversations",
   "version": "1.0",
-  "url": "https://github.com/jpwalters",
+  "url": "https://github.com/jpwalters/OpenVBX-Plugin-SMS-Conversation",
 	"links" : [{
 		"menu" : "SMS",
 		"url" : "sms-conversation",

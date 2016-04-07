@@ -205,7 +205,7 @@ $(document).ready(function(){
 		$('#sendSMS').click(function(e) {
 			e.preventDefault();
 			
-			$.post( "/messages/sms/" + $('#sms-messageid').val(),{to:$('#sms-to-phone').val(),from:$('#sms-from-phone').val(),content:$('#message-to-send').val()}, function( data ) {
+			$.post(OpenVBX.home + "/messages/sms/" + $('#sms-messageid').val(),{to:$('#sms-to-phone').val(),from:$('#sms-from-phone').val(),content:$('#message-to-send').val()}, function( data ) {
 				
 				if(!data.error) {
 					$('#message-to-send').val('');

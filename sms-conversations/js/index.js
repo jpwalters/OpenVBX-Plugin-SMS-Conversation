@@ -211,8 +211,7 @@ $(document).ready(function(){
 
 		$('#sendSMS').click(function(e) {
 			e.preventDefault();
-
-			$.post(OpenVBX.home + "/messages/sms/" + $('#sms-messageid').val(),{to:$('#sms-to-phone').val(),from:$('#sms-from-phone').val(),content:$('#message-to-send').val()}, function( data ) {
+			$.post(OpenVBX.home + "/messages/sms/" + $('#sms-messageid').val(),{to:$('#sms-to-phone').val(),from:$('#sms-from-phone').val(),content:$('#message-to-send').val(),media_urls:$('#sms-media-url').val()}, function( data ) {
 
 				if(!data.error) {
 					$('#message-to-send').val('');
@@ -225,6 +224,35 @@ $(document).ready(function(){
 			setTimeout(function() { getSmsHistory($('#sms-to-phone').val()); }, 1500);
 		});
 
+		$("#media-url").click(function() {
+
+			document.getElementById("sms-media-url").click();
+
+			return false; // avoiding navigation
+		});
+
+		$('#sms-media-url').change(function(evt) {
+			var formData = new FormData(document.getElementById("sms-media-url"));
+			formData.append('action','mms-file-upload');
+
+			$.ajax({
+				url: 'sms-conversation',
+				type: 'POST',
+				async: true,
+				enctype: 'multipart/form-data',
+				processData: false,  // tell jQuery not to process the data
+				contentType: false,   // tell jQuery not to set contentType
+				data: formData,
+				error: function(){
+					console.log("error");
+				},
+				success: function(data){
+					 console.log("PHP Output:");
+					 console.log( data );
+				}
+			});
+		});
+		
 		$('.quick-call-button').click(function(e) {
 			e.preventDefault();
 

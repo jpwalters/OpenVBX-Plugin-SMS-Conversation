@@ -146,3 +146,12 @@
   clear: both;
   height: 0;
 }
+
+#media-url {
+	padding-left:5px;
+	cursor: pointer;
+}
+
+.fa-paperclip:hover {
+	cursor: hand;
+}

@@ -32,6 +32,12 @@
 		echo $mediaObj->ResponseText;
 
 		exit;
+	}	
+	else if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'mms-file-upload') {
+		//var_dump($_FILES, $_POST);
+		echo '{"url":"http://test.com"}';
+
+		exit;
 	}
 
 ?>
@@ -86,7 +92,9 @@ OpenVBX::addCSS('css/jquery.light.css');
 
 				  <div class="chat-message clearfix">
 					<textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+					<i id="media-url" class="fa fa-paperclip fa-2x"></i>
 					<button id="sendSMS">Send</button>
+					<input type="file" id="sms-media-url" value="" style="display: none;">
 					<input type="hidden" id="sms-messageid" value="">
 					<input type="hidden" id="sms-to-phone" value="">
 					<input type="hidden" id="sms-from-phone" value="">

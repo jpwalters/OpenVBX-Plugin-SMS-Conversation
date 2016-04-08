@@ -16,7 +16,7 @@ This plugin will group sms conversations into a single list and when selected it
 
 ## Usage
 
-Once installed, SMS Conversations will appear in the OpenVBX sidebar under a new heading entilted SMS.  Be sure to configure a flow that allows SMS message to be added to the OpenVBX inbox.  Once you can see sms messages in OpenVBX's inbox you'll be able to see conversations in the plugin.
+Once installed, SMS Conversations will appear in the OpenVBX sidebar under a new heading entilted SMS.  Be sure to configure a flow that allows SMS messages to be added to the OpenVBX inbox.  Once you can see sms messages in OpenVBX's inbox you'll be able to see conversations in the plugin.
 
 ## Reporting Problems
 

@@ -54,7 +54,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 <div class="vbx-content-main">
 	<div class="vbx-content-menu vbx-content-menu-top">
 		<h2 class="vbx-content-heading">SMS Conversation List</h2>
-		<div id="sound-notification" style="float: right; color: white; font-size: 25px;"><a href="javascript:void(0);"><i class="fa"></i></a>&nbsp;</div>
+		<div id="sound-notification" style="float: right; color: white; font-size: 25px;"><a href="javascript:void(0);" style="color: white;"><i class="fa"></i></a>&nbsp;</div>
 	</div><!-- .vbx-content-menu -->
 	<div class="vbx-content-container">
 		<div class="vbx-content-section">

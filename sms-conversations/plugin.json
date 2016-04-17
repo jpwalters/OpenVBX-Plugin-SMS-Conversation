@@ -1,13 +1,14 @@
 {
-  "name": "SMS Conversations",
-  "author": "James P. Walters",
-  "description": "Shows the last 50 SMS conversations",
-  "version": "1.0",
-  "url": "https://github.com/jpwalters/OpenVBX-Plugin-SMS-Conversation",
+	"name": "SMS Conversations",
+	"author": "James P. Walters",
+	"description": "Shows the last 2.5 days SMS conversations",
+	"version": "1.1",
+	"url": "https://github.com/jpwalters/OpenVBX-Plugin-SMS-Conversation",
 	"links" : [{
 		"menu" : "SMS",
 		"url" : "sms-conversation",
 		"script" : "sms-conversation.php",
 		"label" : "SMS Conversations"
-	}]
+	}],
+	"enable_sound_notification" : true
 }

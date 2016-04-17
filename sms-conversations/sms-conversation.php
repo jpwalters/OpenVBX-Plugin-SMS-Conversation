@@ -54,6 +54,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 <div class="vbx-content-main">
 	<div class="vbx-content-menu vbx-content-menu-top">
 		<h2 class="vbx-content-heading">SMS Conversation List</h2>
+		<div id="sound-notification" style="float: right; color: white; font-size: 25px;"><a href="javascript:void(0);" style="color: white;"><i class="fa"></i></a>&nbsp;</div>
 	</div><!-- .vbx-content-menu -->
 	<div class="vbx-content-container">
 		<div class="vbx-content-section">
@@ -98,17 +99,17 @@ OpenVBX::addCSS('css/jquery.light.css');
 </div><!-- .vbx-content-main -->
 
 <audio id="notify">
-<?php 
+<?php
 	// Find plugin location to correctly link sound file
 	$file = "assets/notify.mp3";
 	$found_plugin_dir = false;
 	$plugin_dir = "plugins";
-	
+
 	$plugin = OpenVBX::$currentPlugin;
 	$info = $plugin->getInfo();
 	$path = $info['plugin_path'] .'/'. $file;
 	$plugin_dir = implode('/', array('plugins', $info['dir_name'], $file));
-	
+
 	$is_ssl_proto = false;
 	switch(true) {
 		case !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off':

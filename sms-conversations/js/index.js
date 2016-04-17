@@ -23,8 +23,6 @@ function getSmsHistory(smsId) {
 				smsTimeStamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
 			}
 
-
-
 			if(firstTo == '' || firstTo == v.to) {
 				firstTo = v.to;
 				message = '<li class="clearfix">';
@@ -120,10 +118,10 @@ $(document).ready(function(){
 			var
 			select = $('#smss'),
 			firstRun = true,
-			enableSoundNotification = true,
 			downloadSettings = function() {
 				$.getJSON( OpenVBX.home + "/plugins/sms-conversation/plugin.json", function( json ) {
 					enableSoundNotification = json.enable_sound_notification;
+					$('#sound-notification').find('i').addClass((enableSoundNotification?'fa-bell-o':'fa-bell-slash-o'));
 				});
 			},
 			updateSmsList = function() {
@@ -231,6 +229,12 @@ $(document).ready(function(){
 			e.preventDefault();
 
 			window.parent.Client.call({'Digits': 1,'record':'true','to': $('#sms-to-phone').val(),'from': $('#sms-from-phone').val(),'callerid':$('#sms-from-phone').val()});
+		});
+
+		var enableSoundNotification = true;
+		$('#sound-notification a').click(function(){
+			$(this).find('i').toggleClass('fa-bell-o fa-bell-slash-o');
+			enableSoundNotification = (enableSoundNotification?false:true);
 		});
 
 		//mms image popup

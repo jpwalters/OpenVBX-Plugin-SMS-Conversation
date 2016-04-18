@@ -185,6 +185,8 @@ $(document).ready(function(){
 					});
 
 					firstRun = false;
+				}).fail(function(){
+					console.log("Unable to connect to server.");
 				});
 			};
 
@@ -215,6 +217,8 @@ $(document).ready(function(){
 
 				if(!data.error) {
 					$('#message-to-send').val('');
+					$('#sms-media-url').val('');
+					$("#sms-media").val("");
 				}
 				else {
 					alert("SMS failed to send!");
@@ -224,35 +228,40 @@ $(document).ready(function(){
 			setTimeout(function() { getSmsHistory($('#sms-to-phone').val()); }, 1500);
 		});
 
-		$("#media-url").click(function() {
-
-			document.getElementById("sms-media-url").click();
-
+		$("#media-attachment").click(function() {
+			document.getElementById("sms-media").click();
 			return false; // avoiding navigation
 		});
 
-		$('#sms-media-url').change(function(evt) {
-			var formData = new FormData(document.getElementById("sms-media-url"));
+		$('#sms-media').change(function(evt) {
+			var formData = new FormData();
 			formData.append('action','mms-file-upload');
+
+			//var fileSelect = document.getElementById('file-select');
+			var file_data = $('#sms-media').prop('files')[0];
+			formData.append('file',file_data);
+			//document.getElementById("sms-media-url")
 
 			$.ajax({
 				url: 'sms-conversation',
-				type: 'POST',
+				cache: false,
+				type: 'post',
 				async: true,
 				enctype: 'multipart/form-data',
 				processData: false,  // tell jQuery not to process the data
 				contentType: false,   // tell jQuery not to set contentType
 				data: formData,
 				error: function(){
-					console.log("error");
+					console.log("Unable to connect to server.");
 				},
 				success: function(data){
+					 $('#sms-media-url').val(OpenVBX.home + "/plugins/sms-conversation/" + data.url);
 					 console.log("PHP Output:");
-					 console.log( data );
+					 console.log( $('#sms-media-url').val() );
 				}
 			});
 		});
-		
+
 		$('.quick-call-button').click(function(e) {
 			e.preventDefault();
 

@@ -1,5 +1,4 @@
 <?php
-
 	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'sms-list') {
 		$query = $this->db->query("select (select created from messages where caller = data.from order by created desc limit 1) as created, data.*, (select status from messages where caller = data.from order by created desc limit 1) as 'status' from (select caller as 'from',called as 'to', count(id) as 'message_count' from messages where created > DATE_SUB(NOW(), INTERVAL 2.5 DAY) group by caller order by created desc) as data order by created desc ");
 		echo json_encode($query->result());
@@ -32,10 +31,19 @@
 		echo $mediaObj->ResponseText;
 
 		exit;
-	}	
+	}
 	else if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'mms-file-upload') {
-		//var_dump($_FILES, $_POST);
-		echo '{"url":"http://test.com"}';
+
+		$uploads_dir = dirname(__FILE__)."/mms-files/";
+
+		if (!file_exists($uploads_dir)) {
+		    mkdir($uploads_dir);
+		}
+
+		if (copy($_FILES['file']['tmp_name'], $uploads_dir . $_FILES['file']['name'])) {
+				header('Content-Type: application/json');
+		    echo '{"url":"mms-files/'.$_FILES['file']['name'].'"}';
+		}
 
 		exit;
 	}
@@ -92,9 +100,10 @@ OpenVBX::addCSS('css/jquery.light.css');
 
 				  <div class="chat-message clearfix">
 					<textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
-					<i id="media-url" class="fa fa-paperclip fa-2x"></i>
+					<i id="media-attachment" class="fa fa-paperclip fa-2x" style="cursor: pointer;"></i>
 					<button id="sendSMS">Send</button>
-					<input type="file" id="sms-media-url" value="" style="display: none;">
+					<input type="file" id="sms-media" value="" style="display: none;">
+					<input type="hidden" id="sms-media-url" value="">
 					<input type="hidden" id="sms-messageid" value="">
 					<input type="hidden" id="sms-to-phone" value="">
 					<input type="hidden" id="sms-from-phone" value="">

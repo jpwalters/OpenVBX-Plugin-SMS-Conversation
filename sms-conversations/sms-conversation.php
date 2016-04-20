@@ -1,16 +1,20 @@
 <?php
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'sms-list') {
-		$query = $this->db->query("select (select created from messages where caller = data.from order by created desc limit 1) as created, data.*, (select status from messages where caller = data.from order by created desc limit 1) as 'status' from (select caller as 'from',called as 'to', count(id) as 'message_count' from messages where created > DATE_SUB(NOW(), INTERVAL 2.5 DAY) group by caller order by created desc) as data order by created desc ");
+		$query = $this->db->query("select (select created from messages where caller = data.from order by created desc limit 1) as created, data.*, (select status from messages where caller = data.from and called = data.to order by created desc limit 1) as 'status' from (select caller as 'from',called as 'to', count(id) as 'message_count' from messages where created > DATE_SUB(NOW(), INTERVAL 2.5 DAY) group by caller, called order by created desc) as data order by created desc ");
 		echo json_encode($query->result());
 		exit;
 	}
 	else if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'sms-messages') {
 
-		//first mark all messages are read
-		$this->db->query("update `messages` set `read`=current_timestamp, `status`='read' where status='new' and caller='".$_POST['id']."'");
+		$callId = explode("-", $_POST['id']);
+		$caller_id = $callId[0];
+		$called_id = $callId[1];
 
-		$sql = "select (select id from `messages` where caller = '". $_POST['id'] ."' order by created desc limit 1) as 'id',data.* from (select created, call_sid, caller as 'to',called as 'from',content_text as 'message' from messages where caller = '". $_POST['id'] ."' union select created, '' as 'call_sid', concat('+1',Replace(Replace(Replace(Replace(SUBSTRING(description,1,14),'(',''),')',''),' ',''),'-','')) as 'to', concat('+1',Replace(Replace(Replace(Replace(SUBSTRING(description,19,14),'(',''),')',''),' ',''),'-','')) as 'from', SUBSTRING(description,35) as 'message'  from annotations where annotation_type = 6 and message_id in (select id from messages where caller = '". $_POST['id'] ."')) as data order by created";
+		//first mark all messages are read
+		$this->db->query("update `messages` set `read`=current_timestamp, `status`='read' where status='new' and caller='".$caller_id."' and called='".$called_id."'");
+
+		$sql = "select (select id from `messages` where caller = '". $caller_id ."' and called = '". $called_id ."' order by created desc limit 1) as 'id',data.* from (select created, call_sid, caller as 'to',called as 'from',content_text as 'message' from messages where caller = '". $caller_id ."' and called = '". $called_id ."' union select created, '' as 'call_sid', concat('+1',Replace(Replace(Replace(Replace(SUBSTRING(description,1,14),'(',''),')',''),' ',''),'-','')) as 'to', concat('+1',Replace(Replace(Replace(Replace(SUBSTRING(description,19,14),'(',''),')',''),' ',''),'-','')) as 'from', SUBSTRING(description,35) as 'message'  from annotations where annotation_type = 6 and message_id in (select id from messages where caller = '". $caller_id ."' and called = '". $called_id ."')) as data order by created";
 
 		$query = $this->db->query($sql);
 		echo json_encode($query->result());

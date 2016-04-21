@@ -88,6 +88,7 @@ function getSmsHistory(smsId) {
 		});
 
 		$('.chat-history').scrollTop($('.chat-history')[0].scrollHeight);
+		clearAttachment();
 	});
 }
 
@@ -109,6 +110,13 @@ function getMmsMedia(mmsId) {
     });
 
 	return media;
+}
+
+function clearAttachment() {
+	$('#message-to-send').val('');
+	$('#sms-media-url').val('');
+	$("#sms-media").val("");
+	$('#media-attachment').css('color', 'grey');
 }
 
 $(document).ready(function(){
@@ -217,9 +225,7 @@ $(document).ready(function(){
 			$.post(OpenVBX.home + "/messages/sms/" + $('#sms-messageid').val(),{to:$('#sms-to-phone').val(),from:$('#sms-from-phone').val(),content:$('#message-to-send').val(),media_urls:$('#sms-media-url').val()}, function( data ) {
 
 				if(!data.error) {
-					$('#message-to-send').val('');
-					$('#sms-media-url').val('');
-					$("#sms-media").val("");
+					clearAttachment();
 				}
 				else {
 					alert("SMS failed to send!");
@@ -229,7 +235,7 @@ $(document).ready(function(){
 			setTimeout(function() { getSmsHistory($('#sms-to-phone').val()); }, 1500);
 		});
 
-		$("#media-attachment").click(function() {
+		$('#media-attachment').click(function() {
 			document.getElementById("sms-media").click();
 			return false; // avoiding navigation
 		});
@@ -257,8 +263,7 @@ $(document).ready(function(){
 				},
 				success: function(data){
 					 $('#sms-media-url').val(OpenVBX.home + "/plugins/sms-conversation/" + data.url);
-					 console.log("PHP Output:");
-					 console.log( $('#sms-media-url').val() );
+					 $('#media-attachment').css('color', 'green');
 				}
 			});
 		});

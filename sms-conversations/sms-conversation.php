@@ -79,7 +79,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 			<div class="smsList" style="float:left; width:45%;">
 				<table class="vbx-items-grid" border="0" id="smsList">
 					<thead>
-						<tr class="items-head recording-head"><th>Date</th><th>From</th><th>To</th><th>Messages</th></tr>
+						<tr class="sms-head"><th>Date</th><th>From</th><th>To</th><th>Messages</th></tr>
 					</thead>
 					<tbody id="smss">
 
@@ -104,7 +104,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 
 				  <div class="chat-message clearfix">
 					<textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
-					<i id="media-attachment" class="fa fa-paperclip fa-2x" style="cursor: pointer;"></i>
+					<i id="media-attachment" class="fa fa-paperclip fa-2x" style="cursor:pointer;color:grey;"></i>
 					<button id="sendSMS">Send</button>
 					<input type="file" id="sms-media" value="" style="display: none;">
 					<input type="hidden" id="sms-media-url" value="">

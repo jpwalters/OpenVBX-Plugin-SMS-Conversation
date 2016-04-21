@@ -10,6 +10,17 @@
 	color: #FFF;
 }
 
+.sms-head th {
+    padding: 6px;
+    font-size: 12px;
+    font-weight: bolder;
+    color: black;
+    text-transform: uppercase;
+    background-color: #94C2ED;
+    border-collapse: collapse;
+    border-bottom: 1px solid #CCC;
+    vertical-align: center;
+}
 
 .chat {
   font: 14px/20px "Lato", Arial, sans-serif;

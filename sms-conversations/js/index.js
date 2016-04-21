@@ -6,6 +6,7 @@ function formatePhoneNumber(phone) {
 function getSmsHistory(smsId) {
 
 	$('.chat-history-messages').empty();
+	$('#sms-conversationid').val(smsId);
 
 	$.post( "sms-conversation",{id:smsId,action:'sms-messages'}, function( data ) {
 
@@ -226,7 +227,7 @@ $(document).ready(function(){
 				}
 			});
 
-			setTimeout(function() { getSmsHistory($('#sms-to-phone').val()); }, 1500);
+			setTimeout(function() { getSmsHistory($('#sms-conversationid').val()); }, 1500);
 		});
 
 		$('.quick-call-button').click(function(e) {

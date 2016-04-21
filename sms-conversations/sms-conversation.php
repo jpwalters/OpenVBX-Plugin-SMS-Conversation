@@ -91,6 +91,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 				  <div class="chat-message clearfix">
 					<textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
 					<button id="sendSMS">Send</button>
+					<input type="hidden" id="sms-conversationid" value="">
 					<input type="hidden" id="sms-messageid" value="">
 					<input type="hidden" id="sms-to-phone" value="">
 					<input type="hidden" id="sms-from-phone" value="">

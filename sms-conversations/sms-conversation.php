@@ -108,6 +108,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 					<button id="sendSMS">Send</button>
 					<input type="file" id="sms-media" value="" style="display: none;">
 					<input type="hidden" id="sms-media-url" value="">
+					<input type="hidden" id="sms-conversationid" value="">
 					<input type="hidden" id="sms-messageid" value="">
 					<input type="hidden" id="sms-to-phone" value="">
 					<input type="hidden" id="sms-from-phone" value="">

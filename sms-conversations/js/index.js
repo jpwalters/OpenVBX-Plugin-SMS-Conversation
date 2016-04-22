@@ -6,6 +6,7 @@ function formatePhoneNumber(phone) {
 function getSmsHistory(smsId) {
 
 	$('.chat-history-messages').empty();
+	$('#sms-conversationid').val(smsId);
 
 	$.post( "sms-conversation",{id:smsId,action:'sms-messages'}, function( data ) {
 
@@ -138,10 +139,11 @@ $(document).ready(function(){
 							smsTimeStamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
 						}
 
+						var messsage_id = details.from.substring(1) + '-' + details.to.substring(1);
 
-						if($('#' + details.from.substring(1)).length == 0) {
+						if($('#' + messsage_id).length == 0) {
 
-							row = '<tr class="message-row recording-type ' + (details.status=='new'?'unread':'') + '" id="' + details.from.substring(1) + '">';
+							row = '<tr class="message-row recording-type ' + (details.status=='new'?'unread':'') + '" id="' + messsage_id + '">';
 							row += '<td class="recording-date">' + smsTimeStamp + '</td>';
 							row += '<td class="from">' + formatePhoneNumber(details.from) + '</td>';
 							row += '<td class="to">' + formatePhoneNumber(details.to) + '</td>';
@@ -164,9 +166,9 @@ $(document).ready(function(){
 						}
 						else {
 
-							if(details.status=='new' && !$('#' + details.from.substring(1)).hasClass("unread")) {
+							if(details.status=='new' && !$('#' + messsage_id).hasClass("unread")) {
 
-								var row = '#' + details.from.substring(1);
+								var row = '#' + messsage_id;
 								$(row).addClass("unread");
 								$(row + " td.recording-date").html(smsTimeStamp);
 								$(row + " td.message-count").html(details.message_count);
@@ -179,12 +181,14 @@ $(document).ready(function(){
 									$('#notify')[0].play();
 							}
 							else if(details.status=='read') {
-								$('#' + details.from.substring(1)).removeClass("unread");
+								$('#' + messsage_id).removeClass("unread");
 							}
 						}
 					});
 
 					firstRun = false;
+				}).fail(function(){
+					console.log("Unable to connect to server.");
 				});
 			};
 
@@ -196,33 +200,34 @@ $(document).ready(function(){
 		$('#smss').delegate('tr', 'click', function(e) {
 			e.preventDefault();
 
-			var smsId = $(this).closest('tr').attr('id');
+			var caller_id = $(this).closest('tr').attr('id').split('-');
 
 			$('.chat-with').empty();
 			$(this).closest('tr').removeClass("unread");
 
 			var txt = $(this).closest('tr').children('td.from').text()
 			$('.chat-with').text('Chat with ' + txt);
-			$('#sms-to-phone').val('+' + smsId);
+			$('#sms-to-phone').val('+' + caller_id[0]);
 			$('#sms-from-phone').val($(this).closest('tr').children('td.to').text().substr(3));
 
-			getSmsHistory('+' + smsId);
+			getSmsHistory('+' + caller_id[0] + '-+' + caller_id[1]);
 		});
 
 		$('#sendSMS').click(function(e) {
 			e.preventDefault();
-
-			$.post(OpenVBX.home + "/messages/sms/" + $('#sms-messageid').val(),{to:$('#sms-to-phone').val(),from:$('#sms-from-phone').val(),content:$('#message-to-send').val()}, function( data ) {
+			$.post(OpenVBX.home + "/messages/sms/" + $('#sms-messageid').val(),{to:$('#sms-to-phone').val(),from:$('#sms-from-phone').val(),content:$('#message-to-send').val(),media_urls:$('#sms-media-url').val()}, function( data ) {
 
 				if(!data.error) {
 					$('#message-to-send').val('');
+					$('#sms-media-url').val('');
+					$("#sms-media").val("");
 				}
 				else {
 					alert("SMS failed to send!");
 				}
 			});
 
-			setTimeout(function() { getSmsHistory($('#sms-to-phone').val()); }, 1500);
+			setTimeout(function() { getSmsHistory($('#sms-conversationid').val()); }, 1500);
 		});
 
 		$('.quick-call-button').click(function(e) {

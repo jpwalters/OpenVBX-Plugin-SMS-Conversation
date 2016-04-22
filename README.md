@@ -1,5 +1,7 @@
 # OpenVBX Plugin SMS Conversation
 
+[![Join the chat at https://gitter.im/jpwalters/OpenVBX-Plugin-SMS-Conversation](https://badges.gitter.im/jpwalters/OpenVBX-Plugin-SMS-Conversation.svg)](https://gitter.im/jpwalters/OpenVBX-Plugin-SMS-Conversation?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [Download][1] the latest release today!
 
 This plugin will group sms conversations into a single list and when selected it will show the sms conversation thread in an instant messenger like view.

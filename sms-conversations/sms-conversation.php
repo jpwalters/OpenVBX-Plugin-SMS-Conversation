@@ -76,7 +76,7 @@ OpenVBX::addCSS('css/jquery.light.css');
 				<div class="chat">
 					<div class="chat-header clearfix">
 						<div class="chat-about">
-							<div class="chat-with" style="float:left; width:95%;"><-- Click to View Conersation</div>
+							<div class="chat-with" style="float:left; width:95%;"><-- Click to View Conversation</div>
 							<div style="float:left;"><a href="#" class="quick-call-button"></a></div>
 						</div>
 					</div> <!-- end chat-header -->

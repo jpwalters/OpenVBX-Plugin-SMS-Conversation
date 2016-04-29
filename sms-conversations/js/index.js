@@ -120,7 +120,7 @@ $(document).ready(function(){
 			select = $('#smss'),
 			firstRun = true,
 			downloadSettings = function() {
-				$.getJSON( OpenVBX.home + "/plugins/sms-conversation/plugin.json", function( json ) {
+				$.post( "sms-conversation",{action:'plugin-json'}, function( json ) {
 					enableSoundNotification = json.enable_sound_notification;
 					$('#sound-notification').find('i').addClass((enableSoundNotification?'fa-bell-o':'fa-bell-slash-o'));
 				});

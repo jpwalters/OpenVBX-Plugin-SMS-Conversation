@@ -37,6 +37,10 @@
 
 		exit;
 	}
+	else if($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'plugin-json') {
+		echo file_get_contents('plugin.json', true);
+		exit;
+	}
 
 ?>
 

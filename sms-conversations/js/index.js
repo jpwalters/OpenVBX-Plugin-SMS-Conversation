@@ -1,6 +1,16 @@
 function formatePhoneNumber(phone) {
 
-	return phone.substr(0,2) + ' ' + '(' + phone.substr(2,3) + ') ' + phone.substr(5,3) + '-' + phone.substring(8);
+	var international = (phone.length === 13 ?1:0);
+
+	var formatted_number = '';
+	if(phone.length === 10) {
+		formatted_number = '(' + phone.substr(0,3) + ') ' + phone.substr(3,3) + '-' + phone.substring(6)
+	}
+	else {
+		formatted_number = phone.substr(0,2 + international) + ' ' + '(' + phone.substr(2 + international,3) + ') ' + phone.substr(5 + international,3) + '-' + phone.substring(8 + international)
+	}
+
+	return formatted_number;
 }
 
 function getSmsHistory(smsId) {
@@ -24,8 +34,11 @@ function getSmsHistory(smsId) {
 				smsTimeStamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
 			}
 
-			if(firstTo == '' || firstTo == v.to) {
-				firstTo = v.to;
+			//Country code is not alway present.  Therefore we'll match by only 10 digits.
+			var to_phone = v.to.substr(v.to.length-10);
+
+			if(firstTo == '' || firstTo == to_phone) {
+				firstTo = to_phone;
 				message = '<li class="clearfix">';
 				message += '<div class="message-data align-right">';
 
@@ -34,7 +47,7 @@ function getSmsHistory(smsId) {
 				}
 
 				message += '<span class="message-data-time" >' + smsTimeStamp + '</span> &nbsp; &nbsp;';
-				message += '<span class="message-data-name" >' + v.to + '</span></div>';
+				message += '<span class="message-data-name" >' + formatePhoneNumber(v.to) + '</span></div>';
 				message += '<div class="message other-message float-right">';
 
 				if(v.call_sid.substr(0,2)==='MM') {
@@ -52,11 +65,11 @@ function getSmsHistory(smsId) {
 				message += v.message;
 				message += '</div></li>';
 			}
-			else if(secondTo == '' || secondTo == v.to){
-				secondTo = v.to;
+			else if(secondTo == '' || secondTo == to_phone){
+				secondTo = to_phone;
 				message = '<li>';
 				message += '<div class="message-data">';
-				message += '<span class="message-data-name">' + v.to + '</span>';
+				message += '<span class="message-data-name">' + formatePhoneNumber(v.to) + '</span>';
 				message += '<span class="message-data-time">' + smsTimeStamp + '</span>';
 
 				if(v.call_sid.substr(0,2)==='MM') {
@@ -208,7 +221,7 @@ $(document).ready(function(){
 			var txt = $(this).closest('tr').children('td.from').text()
 			$('.chat-with').text('Chat with ' + txt);
 			$('#sms-to-phone').val('+' + caller_id[0]);
-			$('#sms-from-phone').val($(this).closest('tr').children('td.to').text().substr(3));
+			$('#sms-from-phone').val('+' + caller_id[1]);
 
 			getSmsHistory('+' + caller_id[0] + '-+' + caller_id[1]);
 		});

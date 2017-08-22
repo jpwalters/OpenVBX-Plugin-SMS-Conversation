@@ -1,9 +1,9 @@
 {
 	"name": "SMS Conversations",
-	"author": "James P. Walters",
-	"description": "Shows the last 2.5 days SMS conversations",
-	"version": "1.4",
-	"url": "https://github.com/jpwalters/OpenVBX-Plugin-SMS-Conversation",
+	"author": "Jason Gegere",
+	"description": "Shows the last year of SMS conversations",
+	"version": "1.4.1",
+	"url": "https://github.com/gegere/OpenVBX-Plugin-SMS-Conversation",
 	"links" : [{
 		"menu" : "SMS",
 		"url" : "sms-conversation",

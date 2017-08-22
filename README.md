@@ -10,11 +10,14 @@ This plugin will group sms conversations into a single list and when selected it
 
 ## Installation
 
-[Download][1] the latest released version of the plugin and extract to /**plugins** directory.
+To install this OpenVBX SMS plugin. Locate the `plugins` directory located in the main `OpenVBX` folder. Clone the repo and you are ready to start using it.
 
-![screenshot](https://cloud.githubusercontent.com/assets/4819310/12224268/5b4757d4-b7ba-11e5-81c0-5d72495cd5c0.PNG)
+```
+git clone git@github.com:gegere/OpenVBX-Plugin-SMS-Conversation.git sms-convseration
+```
 
-[1]: https://github.com/jpwalters/OpenVBX-Plugin-SMS-Conversation/releases/latest
+
+[1]: https://github.com/gegere/OpenVBX-Plugin-SMS-Conversation/releases/latest
 
 ## Usage
 
@@ -26,4 +29,4 @@ Once installed, SMS Conversations will appear in the OpenVBX sidebar under a new
 
 ## Reporting Problems
 
-If you experience issues with the plugin let us know by opening an issue report. [Click Here to Report a Problem](https://github.com/jpwalters/OpenVBX-Plugin-SMS-Conversation/issues)
+If you experience issues with the plugin let us know by opening an issue report. [Click Here to Report a Problem](https://github.com/gegere/OpenVBX-Plugin-SMS-Conversation/issues)

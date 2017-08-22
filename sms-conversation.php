@@ -1,7 +1,7 @@
 <?php
 
 	if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'sms-list') {
-		$query = $this->db->query("select (select created from messages where caller = data.from order by created desc limit 1) as created, data.*, (select status from messages where caller = data.from and called = data.to order by created desc limit 1) as 'status' from (select caller as 'from',called as 'to', count(id) as 'message_count' from messages group by caller, called order by created desc) as data order by created desc");
+		$query = $this->db->query("select (select created from messages where caller = data.from order by created desc limit 1) as created, data.*, (select status from messages where caller = data.from and called = data.to order by created desc limit 1) as 'status' from (select caller as 'from',called as 'to', count(id) as 'message_count' from messages where created > DATE_SUB(NOW(), INTERVAL 1 YEAR) group by caller, called order by created desc) as data order by created desc");
 		echo json_encode($query->result());
 		exit;
 	}
